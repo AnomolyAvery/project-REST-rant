@@ -11,6 +11,10 @@ app.get('/', (req, res) => {
     res.send('Hello World');
 });
 
+app.get('*', (req, res) => {
+    res.status(404).send('404');
+});
+
 app.listen(config.port, () => {
     console.log(
         `Server is listening on port ${config.port} (http://localhost:${config.port})`
