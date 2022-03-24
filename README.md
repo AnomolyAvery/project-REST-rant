@@ -2,6 +2,22 @@
 
 Rest-Rant is an app where users can review resturants.
 
+## Colors
+
+### Primary
+
+\#FFBF00
+
+### Secondary
+
+\#EADDCA
+
+### Highlight
+
+\#FFEA00
+
+## Routes
+
 | Method | Path                     | Purpose                                          |
 | ------ | ------------------------ | ------------------------------------------------ |
 | GET    | /                        | Home page                                        |
