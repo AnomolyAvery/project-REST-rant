@@ -9,14 +9,16 @@ placesRouter.get('/', (req, res) => {
             city: 'Seattle',
             state: 'WA',
             cuisines: 'Thai, Pan-Asian',
-            pic: 'http://placekitten.com/250/250',
+            pic: '/images/jerome-thai-food.jpg',
+            picCredits: `Photo by Jerome Jome on Unsplash`,
         },
         {
             name: 'Coding Cat Cafe',
             city: 'Phoenix',
             state: 'AZ',
             cuisines: 'Coffee, Bakery',
-            pic: 'http://placekitten.com/250/250',
+            pic: '/images/coding-cafe.jpg',
+            picCredits: `Photo by Rod Long on Unsplash`,
         },
     ];
 

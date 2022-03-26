@@ -11,7 +11,13 @@ const Index = ({ places }) => {
                         <div className="col-sm-6" key={i}>
                             <h2>{place.name}</h2>
                             <p>{place.cuisines}</p>
-                            <img src={place.pic} alt={place.name} />
+                            <img
+                                width={400}
+                                height={300}
+                                src={place.pic}
+                                alt={place.name}
+                            />
+                            <p>{place.picCredits}</p>
                             <p>
                                 Located in {place.city}, {place.state}
                             </p>
