@@ -3,7 +3,7 @@ const Def = require('../default');
 
 const Index = ({ places }) => {
     return (
-        <Def>
+        <Def title={'Places List'}>
             <main>
                 <h1>Places to Rant About.</h1>
                 <div className="row">

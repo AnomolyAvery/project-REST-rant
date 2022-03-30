@@ -3,7 +3,7 @@ const Def = require('../default');
 
 const NewForm = () => {
     return (
-        <Def>
+        <Def title={'Add new place'}>
             <main>
                 <h1>Add a New Place</h1>
                 <form method="POST" action="/places">

@@ -5,7 +5,7 @@ const Show = ({ place, index }) => {
     console.log(place);
 
     return (
-        <Def>
+        <Def title={`${place.name} - Places`}>
             <main>
                 <div className="container px-3 py-2 mt-2">
                     <div className="d-flex mb-4 gap-2">
