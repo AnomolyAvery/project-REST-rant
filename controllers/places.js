@@ -27,4 +27,8 @@ placesRouter.get('/', (req, res) => {
     });
 });
 
+placesRouter.get('/new', (req, res) => {
+    res.render('places/new');
+});
+
 module.exports = placesRouter;
