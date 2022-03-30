@@ -9,7 +9,9 @@ const Index = ({ places }) => {
                 <div className="row">
                     {places.map((place, i) => (
                         <div className="col-sm-6" key={i}>
-                            <h2>{place.name}</h2>
+                            <h2>
+                                <a href={`/places/${i}`}>{place.name}</a>
+                            </h2>
                             <p>{place.cuisines}</p>
                             <img
                                 width={400}

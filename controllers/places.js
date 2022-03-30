@@ -39,6 +39,10 @@ placesRouter.get('/new', (req, res) => {
 placesRouter.get('/:id', (req, res) => {
     const id = req.params.id;
 
+    if (isNaN(id)) {
+        return res.status(404).render('error');
+    }
+
     try {
         if (!places[id]) {
             return res.status(404).send('Place not found');
