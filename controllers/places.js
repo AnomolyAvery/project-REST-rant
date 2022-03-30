@@ -59,4 +59,24 @@ placesRouter.get('/:id', (req, res) => {
     }
 });
 
+placesRouter.delete('/:id', (req, res) => {
+    const id = req.params.id;
+
+    if (isNaN(id)) {
+        return res.status(404).render('error');
+    }
+
+    try {
+        if (!places[id]) {
+            return res.status(404).send('Place not found');
+        }
+
+        places.splice(id, 1);
+
+        return res.status(303).redirect('/places');
+    } catch (err) {
+        return res.status(500).render('error');
+    }
+});
+
 module.exports = placesRouter;
