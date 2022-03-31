@@ -14,13 +14,13 @@ const Def = (html) => {
                 <link rel="stylesheet" href="/css/style.css" />
             </head>
             <body>
-                <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                    <div class="container-fluid">
-                        <a class="navbar-brand" href="#">
+                <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                    <div className="container-fluid">
+                        <a className="navbar-brand" href="#">
                             Places
                         </a>
                         <button
-                            class="navbar-toggler"
+                            className="navbar-toggler"
                             type="button"
                             data-bs-toggle="collapse"
                             data-bs-target="#navbarNav"
@@ -28,26 +28,29 @@ const Def = (html) => {
                             aria-expanded="false"
                             aria-label="Toggle navigation"
                         >
-                            <span class="navbar-toggler-icon"></span>
+                            <span className="navbar-toggler-icon"></span>
                         </button>
-                        <div class="collapse navbar-collapse" id="navbarNav">
-                            <ul class="navbar-nav">
-                                <li class="nav-item">
+                        <div
+                            className="collapse navbar-collapse"
+                            id="navbarNav"
+                        >
+                            <ul className="navbar-nav">
+                                <li className="nav-item">
                                     <a
-                                        class="nav-link active"
+                                        className="nav-link active"
                                         aria-current="page"
                                         href="/"
                                     >
                                         Home
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/places">
+                                <li className="nav-item">
+                                    <a className="nav-link" href="/places">
                                         Places
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/places/new">
+                                <li className="nav-item">
+                                    <a className="nav-link" href="/places/new">
                                         Add Place
                                     </a>
                                 </li>
@@ -56,6 +59,12 @@ const Def = (html) => {
                     </div>
                 </nav>
                 {html.children}
+
+                <script
+                    src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+                    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+                    crossOrigin="anonymous"
+                ></script>
             </body>
         </html>
     );

@@ -2,8 +2,6 @@ const React = require('react');
 const Def = require('../default');
 
 const Show = ({ place, index }) => {
-    console.log(place);
-
     return (
         <Def title={`${place.name} - Places`}>
             <main>

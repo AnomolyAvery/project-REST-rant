@@ -79,4 +79,58 @@ placesRouter.delete('/:id', (req, res) => {
     }
 });
 
+placesRouter.get('/:id/edit', (req, res) => {
+    const id = req.params.id;
+
+    if (isNaN(id)) {
+        return res.status(404).render('error');
+    }
+
+    try {
+        if (!places[id]) {
+            return res.status(404).send('Place not found');
+        }
+
+        const place = places[id];
+
+        return res.render('places/edit', {
+            place,
+            index: id,
+        });
+    } catch (err) {
+        return res.status(500).render('error');
+    }
+});
+
+placesRouter.put('/:id', (req, res) => {
+    const id = req.params.id;
+
+    if (isNaN(id)) {
+        return res.status(404).render('error');
+    }
+
+    try {
+        if (!places[id]) {
+            return res.status(404).send('Place not found');
+        }
+
+        const place = places[id];
+
+        place.name = req.body.name ? req.body.name : place.name;
+        place.city = req.body.city ? req.body.city : place.city;
+        place.state = req.body.state ? req.body.state : place.state;
+        place.cuisines = req.body.cuisines ? req.body.cuisines : place.cuisines;
+        place.pic = req.body.pic ? req.body.pic : place.pic;
+        place.picCredits = req.body.picCredits
+            ? req.body.picCredits
+            : place.picCredits;
+
+        places[id] = place;
+
+        return res.status(303).redirect(`/places/${id}`);
+    } catch (err) {
+        return res.status(500).render('error');
+    }
+});
+
 module.exports = placesRouter;
