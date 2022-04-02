@@ -1,33 +1,46 @@
 const { Router } = require('express');
-const places = require('../models/places');
+const { isValidObjectId } = require('mongoose');
+const PlaceModel = require('../models/places');
 
 const placesRouter = Router();
 
-placesRouter.get('/', (req, res) => {
+placesRouter.get('/', async (req, res) => {
+    const places = await PlaceModel.find();
+
     res.render('places/index', {
         places,
     });
 });
 
-placesRouter.post('/', (req, res) => {
-    if (!req.body.name) {
-        return res.status(400).send('Name is required');
+placesRouter.post('/', async (req, res) => {
+    const { name, cuisines, city, state, founded, pic } = req.body;
+
+    if (!name || !cuisines) {
+        return res.status(400).send('Name and cuisines are required');
     }
 
-    if (!req.body.cuisines) {
-        return res.status(400).send('Cuisines is required');
+    const place = new PlaceModel({
+        name,
+        cuisines,
+    });
+
+    if (pic) {
+        place.pic = pic;
     }
 
-    const place = {
-        name: req.body.name ? req.body.name : '',
-        city: req.body.city ? req.body.city : 'Anytown',
-        state: req.body.state ? req.body.state : 'USA',
-        cuisines: req.body.cuisines ? req.body.cuisines : '',
-        pic: req.body.pic ? req.body.pic : 'https://placekitten.com/400/400',
-        picCredits: req.body.picCredits ? req.body.picCredits : '',
-    };
+    if (city) {
+        place.city = city;
+    }
 
-    places.push(place);
+    if (state) {
+        place.state = state;
+    }
+
+    if (founded) {
+        place.founded = founded;
+    }
+
+    await place.save();
 
     return res.status(303).redirect('/places');
 });
@@ -36,42 +49,39 @@ placesRouter.get('/new', (req, res) => {
     res.render('places/new');
 });
 
-placesRouter.get('/:id', (req, res) => {
+placesRouter.get('/:id', async (req, res) => {
     const id = req.params.id;
 
-    if (isNaN(id)) {
+    if (!isValidObjectId(id)) {
         return res.status(404).render('error');
     }
 
     try {
-        if (!places[id]) {
-            return res.status(404).send('Place not found');
-        }
-
-        const place = places[id];
+        const place = await PlaceModel.findById(id);
 
         return res.render('places/show', {
             place,
-            index: id,
         });
     } catch (err) {
         return res.status(500).render('error');
     }
 });
 
-placesRouter.delete('/:id', (req, res) => {
+placesRouter.delete('/:id', async (req, res) => {
     const id = req.params.id;
 
-    if (isNaN(id)) {
+    if (!isValidObjectId(id)) {
         return res.status(404).render('error');
     }
 
     try {
-        if (!places[id]) {
-            return res.status(404).send('Place not found');
+        const place = await PlaceModel.findById(id);
+
+        if (!place) {
+            return res.status(404).render('error');
         }
 
-        places.splice(id, 1);
+        await PlaceModel.findByIdAndDelete(id);
 
         return res.status(303).redirect('/places');
     } catch (err) {
@@ -79,42 +89,37 @@ placesRouter.delete('/:id', (req, res) => {
     }
 });
 
-placesRouter.get('/:id/edit', (req, res) => {
+placesRouter.get('/:id/edit', async (req, res) => {
     const id = req.params.id;
 
-    if (isNaN(id)) {
+    if (!isValidObjectId(id)) {
         return res.status(404).render('error');
     }
 
     try {
-        if (!places[id]) {
-            return res.status(404).send('Place not found');
-        }
+        const place = await PlaceModel.findById(id);
 
-        const place = places[id];
+        if (!place) {
+            return res.status(404).render('error');
+        }
 
         return res.render('places/edit', {
             place,
-            index: id,
         });
     } catch (err) {
         return res.status(500).render('error');
     }
 });
 
-placesRouter.put('/:id', (req, res) => {
+placesRouter.put('/:id', async (req, res) => {
     const id = req.params.id;
 
-    if (isNaN(id)) {
+    if (!isValidObjectId(id)) {
         return res.status(404).render('error');
     }
 
     try {
-        if (!places[id]) {
-            return res.status(404).send('Place not found');
-        }
-
-        const place = places[id];
+        const place = await PlaceModel.findById(id);
 
         place.name = req.body.name ? req.body.name : place.name;
         place.city = req.body.city ? req.body.city : place.city;
@@ -124,8 +129,9 @@ placesRouter.put('/:id', (req, res) => {
         place.picCredits = req.body.picCredits
             ? req.body.picCredits
             : place.picCredits;
+        place.founded = req.body.founded ? req.body.founded : place.founded;
 
-        places[id] = place;
+        await place.save();
 
         return res.status(303).redirect(`/places/${id}`);
     } catch (err) {

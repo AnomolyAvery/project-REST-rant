@@ -1,13 +1,16 @@
 const React = require('react');
 const Def = require('../default');
 
-const EditForm = ({ place, index }) => {
+const EditForm = ({ place }) => {
     return (
         <Def title={`Edit ${place.name}`}>
             <main>
                 <div className="container px-3 py-2 mt-2">
                     <h1>Edit place</h1>
-                    <form method="POST" action={`/places/${index}?_method=PUT`}>
+                    <form
+                        method="POST"
+                        action={`/places/${place.id}?_method=PUT`}
+                    >
                         <div className="row">
                             <div className="form-group col-sm-6">
                                 <label htmlFor="name">Place Name</label>
@@ -60,13 +63,12 @@ const EditForm = ({ place, index }) => {
                                 />
                             </div>
                             <div className="form-group col-sm-12">
-                                <label htmlFor="name">Pic Credits</label>
+                                <label htmlFor="founded">Founded</label>
                                 <input
                                     className="form-control"
-                                    type="text"
-                                    id="picCredits"
-                                    name="picCredits"
-                                    defaultValue={place.picCredits}
+                                    id="founded"
+                                    name="founded"
+                                    defaultValue={place.founded}
                                 />
                             </div>
                         </div>

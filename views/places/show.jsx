@@ -1,20 +1,20 @@
 const React = require('react');
 const Def = require('../default');
 
-const Show = ({ place, index }) => {
+const Show = ({ place }) => {
     return (
         <Def title={`${place.name} - Places`}>
             <main>
                 <div className="container px-3 py-2 mt-2">
                     <div className="d-flex mb-4 gap-2">
                         <a
-                            href={`/places/${index}/edit`}
+                            href={`/places/${place.id}/edit`}
                             className="btn btn-info"
                         >
                             Edit
                         </a>
                         <form
-                            action={`/places/${index}?_method=DELETE`}
+                            action={`/places/${place.id}?_method=DELETE`}
                             method={`POST`}
                         >
                             <button type="submit" className="btn btn-danger">
@@ -26,7 +26,10 @@ const Show = ({ place, index }) => {
                         <div className="col-md-6">
                             <img
                                 className="img-fluid"
-                                src={place.pic}
+                                src={
+                                    place.pic ??
+                                    'https://via.placeholder.com/400x300'
+                                }
                                 alt={place.name}
                             />
                         </div>

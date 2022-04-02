@@ -1,20 +1,14 @@
-const places = [
-    {
-        name: 'H-Thai-ML',
-        city: 'Seattle',
-        state: 'WA',
-        cuisines: 'Thai, Pan-Asian',
-        pic: '/images/jerome-thai-food.jpg',
-        picCredits: `Photo by Jerome Jome on Unsplash`,
-    },
-    {
-        name: 'Coding Cat Cafe',
-        city: 'Phoenix',
-        state: 'AZ',
-        cuisines: 'Coffee, Bakery',
-        pic: '/images/coding-cafe.jpg',
-        picCredits: `Photo by Rod Long on Unsplash`,
-    },
-];
+const { Schema, model } = require('mongoose');
 
-module.exports = places;
+const placeSchema = new Schema({
+    name: { type: String, required: true },
+    pic: String,
+    cuisines: { type: String, required: true },
+    city: { type: String, default: 'Anytown' },
+    state: { type: String, default: 'USA' },
+    founded: Number,
+});
+
+const PlaceModel = model('Place', placeSchema);
+
+module.exports = PlaceModel;
