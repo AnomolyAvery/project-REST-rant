@@ -19,30 +19,44 @@ placesRouter.post('/', async (req, res) => {
         return res.status(400).send('Name and cuisines are required');
     }
 
-    const place = new PlaceModel({
-        name,
-        cuisines,
-    });
+    try {
+        const place = new PlaceModel({
+            name,
+            cuisines,
+        });
 
-    if (pic) {
-        place.pic = pic;
+        if (pic) {
+            place.pic = pic;
+        }
+
+        if (city) {
+            place.city = city;
+        }
+
+        if (state) {
+            place.state = state;
+        }
+
+        if (founded) {
+            place.founded = founded;
+        }
+
+        await place.save();
+
+        return res.status(303).redirect('/places');
+    } catch (err) {
+        if (err && err.name == 'ValidationError') {
+            let message = 'Validation Error: ';
+            for (var field in err.errors) {
+                message += `${field} was ${err.errors[field].value}. `;
+                message += `${err.errors[field].message}`;
+            }
+            console.log('Validation error message', message);
+            res.render('places/new', { message });
+        } else {
+            res.render('error');
+        }
     }
-
-    if (city) {
-        place.city = city;
-    }
-
-    if (state) {
-        place.state = state;
-    }
-
-    if (founded) {
-        place.founded = founded;
-    }
-
-    await place.save();
-
-    return res.status(303).redirect('/places');
 });
 
 placesRouter.get('/new', (req, res) => {
