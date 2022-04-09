@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const { isValidObjectId } = require('mongoose');
 const PlaceModel = require('../models/places');
+const CommentModel = require('../models/comment');
 
 const placesRouter = Router();
 
@@ -71,12 +72,12 @@ placesRouter.get('/:id', async (req, res) => {
     }
 
     try {
-        const place = await PlaceModel.findById(id);
-
+        const place = await PlaceModel.findById(id).populate('comments');
         return res.render('places/show', {
             place,
         });
     } catch (err) {
+        console.log(err);
         return res.status(500).render('error');
     }
 });
@@ -121,6 +122,31 @@ placesRouter.get('/:id/edit', async (req, res) => {
             place,
         });
     } catch (err) {
+        return res.status(500).render('error');
+    }
+});
+
+placesRouter.post('/:id/comment', async (req, res) => {
+    req.body.rant = req.body.rant ? true : false;
+
+    try {
+        const place = await PlaceModel.findById(req.params.id);
+
+        if (!place) {
+            return res.status(404).render('error');
+        }
+
+        const comment = await CommentModel.create(req.body);
+        if (!comment) {
+            return res.status(500).render('error');
+        }
+
+        place.comments.push(comment);
+        await place.save();
+
+        return res.redirect(`/places/${place._id}`);
+    } catch (err) {
+        console.log(err);
         return res.status(500).render('error');
     }
 });
