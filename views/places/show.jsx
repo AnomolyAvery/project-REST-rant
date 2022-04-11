@@ -3,11 +3,12 @@ const Def = require('../default');
 
 const Show = ({ place }) => {
     let comments = <div className="inactive">No comments yet!</div>;
+    let rating = <div className="inactive">No ratings yet!</div>;
 
     if (place.comments.length > 0) {
         comments = place.comments.map((comment, index) => {
             return (
-                <div className="border">
+                <div key={index} className="border">
                     <h2 className="rant">{comment.rant ? 'Rant' : 'Raye!'}</h2>
                     <h4>{comment.content}</h4>
                     <h3>
@@ -18,6 +19,18 @@ const Show = ({ place }) => {
                 </div>
             );
         });
+
+        // Get the sum of all stars and divide by the number of comments
+        let sum = place.comments.reduce((acc, curr) => {
+            return acc + curr.stars;
+        }, 0);
+        let avg = Math.round(sum / place.comments.length);
+        let stars = '';
+        for (let i = 0; i < avg; i++) {
+            stars += '⭐';
+        }
+
+        rating = <h3>{stars} stars</h3>;
     }
 
     return (
@@ -57,7 +70,8 @@ const Show = ({ place }) => {
                         <div className="col-md-6">
                             <h1>{place.name}</h1>
                             <h2>Rating</h2>
-                            <p>Not rated</p>
+                            {rating}
+                            <br />
                             <h2>Description</h2>
                             <h3>{place.showEstablished()}</h3>
                             <h4>Serving {place.cuisines}</h4>
